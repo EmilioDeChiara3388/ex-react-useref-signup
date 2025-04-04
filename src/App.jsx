@@ -1,12 +1,15 @@
-import { useState } from "react"
+import { useState, useRef } from "react"
 
 function App() {
 
-  const [name, setName] = useState("")
+  //const [name, setName] = useState("")
+  const nameRef = useRef()
   const [userName, setUserName] = useState("")
   const [password, setPassword] = useState("")
-  const [specialty, setSpecialty] = useState("")
-  const [experience, setExperience] = useState(0)
+  //const [specialty, setSpecialty] = useState("")
+  const specialtyRef = useRef()
+  //const [experience, setExperience] = useState(0)
+  const experienceRef = useRef()
   const [description, setDescription] = useState("")
 
   const letters = "abcdefghijklmnopqrstuvwxyz";
@@ -26,14 +29,14 @@ function App() {
 
   function submitForm(e) {
     e.preventDefault()
-    if (experience < 0 || !validUsername || !validPassword || !validDescription) {
+    if (experienceRef.current.value < 0 || !validUsername || !validPassword || !validDescription) {
       console.log("Compila tutti i campi correttamente per favore");
     } else {
-      console.log(`Nome Completo: ${name};
+      console.log(`Nome Completo: ${nameRef.current.value};
         Username: ${userName};
         Password: ${password};
-        Specializzazione: ${specialty};
-        Anni di Esperienza: ${experience};
+        Specializzazione: ${specialtyRef.current.value};
+        Anni di Esperienza: ${experienceRef.current.value};
         Descrizione: ${description}`);
     }
   }
@@ -45,8 +48,8 @@ function App() {
           <input
             type="text"
             placeholder="Nome Completo"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            ref={nameRef}
+            //onChange={(e) => setName(e.target.value)}
             required />
           <input type="text"
             placeholder="Username"
@@ -67,8 +70,8 @@ function App() {
           </strong>
           <select name="specialty"
             id="specialty"
-            value={specialty}
-            onChange={(e) => setSpecialty(e.target.value)}
+            ref={specialtyRef}
+            //onChange={(e) => setSpecialty(e.target.value)}
             required>
             <option value=""></option>
             <option value="Full Stack">
@@ -83,8 +86,8 @@ function App() {
           </select>
           <input type="number"
             placeholder="Anni di esperienza"
-            value={experience}
-            onChange={(e) => setExperience(e.target.value)}
+            ref={experienceRef}
+            //onChange={(e) => setExperience(e.target.value)}
             required />
           <textarea
             name="description"
