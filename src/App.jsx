@@ -2,13 +2,10 @@ import { useState, useRef } from "react"
 
 function App() {
 
-  //const [name, setName] = useState("")
   const nameRef = useRef()
   const [userName, setUserName] = useState("")
   const [password, setPassword] = useState("")
-  //const [specialty, setSpecialty] = useState("")
   const specialtyRef = useRef()
-  //const [experience, setExperience] = useState(0)
   const experienceRef = useRef()
   const [description, setDescription] = useState("")
 
@@ -43,35 +40,40 @@ function App() {
 
   return (
     <>
-      <div>
+      <div className="formContainer">
+        <h1>Compila il Form</h1>
         <form onSubmit={submitForm}>
           <input
             type="text"
             placeholder="Nome Completo"
             ref={nameRef}
-            //onChange={(e) => setName(e.target.value)}
             required />
           <input type="text"
             placeholder="Username"
             value={userName}
             onChange={(e) => setUserName(e.target.value)}
             required />
-          <strong style={{ color: validUsername ? "green" : "red" }}>
-            {validUsername ? "Username Valido" : "Minimo 6 caratteri, solo caratteri alfanumerici"}
-          </strong>
+          <div className="messageContainer">
+            <strong style={{ color: validUsername ? "green" : "red" }}>
+              {validUsername ? "Username Valido" : "Minimo 6 caratteri, solo caratteri alfanumerici"}
+            </strong>
+          </div>
+
           <input type="password"
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-          <strong style={{ color: validPassword ? "green" : "red" }}>
-            {validPassword ? "Password Valida" : "Password non valida"}
-          </strong>
+          <div className="messageContainer">
+            <strong style={{ color: validPassword ? "green" : "red" }}>
+              {validPassword ? "Password Valida" : "Password non valida"}
+            </strong>
+          </div>
+
           <select name="specialty"
             id="specialty"
             ref={specialtyRef}
-            //onChange={(e) => setSpecialty(e.target.value)}
             required>
             <option value=""></option>
             <option value="Full Stack">
@@ -87,7 +89,6 @@ function App() {
           <input type="number"
             placeholder="Anni di esperienza"
             ref={experienceRef}
-            //onChange={(e) => setExperience(e.target.value)}
             required />
           <textarea
             name="description"
@@ -97,9 +98,12 @@ function App() {
             onChange={(e) => setDescription(e.target.value)}
             required>
           </textarea>
-          <strong style={{ color: validDescription ? "green" : "red" }}>
-            {validDescription ? "Descrizione Valida" : "Descrizione non valida"}
-          </strong>
+          <div className="messageContainer">
+            <strong style={{ color: validDescription ? "green" : "red" }}>
+              {validDescription ? "Descrizione Valida" : "Descrizione non valida"}
+            </strong>
+          </div>
+
           <button type="submit">Invia!</button>
         </form>
       </div>

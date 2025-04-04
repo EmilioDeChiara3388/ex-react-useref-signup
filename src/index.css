@@ -1,0 +1,37 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.formContainer {
+    width: 80%;
+    margin: 2rem auto;
+    padding: 2rem;
+    text-align: center;
+    border: 2px solid black;
+    border-radius: 5px;
+}
+
+input,
+select,
+textarea {
+    width: 60%;
+    margin: 0.75rem auto 0 auto;
+    padding: 0.75rem;
+    border-radius: 5px;
+}
+
+.messageContainer {
+    width: 60%;
+    margin: 0 auto 0.2rem auto;
+    text-align: left;
+    padding: 0.2rem;
+}
+
+button {
+    padding: 0.5rem;
+    background-color: cornflowerblue;
+    color: yellow;
+    border-radius: 5px;
+}
