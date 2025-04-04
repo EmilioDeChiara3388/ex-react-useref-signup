@@ -1,33 +1,82 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react"
 
 function App() {
-  const [count, setCount] = useState(0)
+
+  const [name, setName] = useState("")
+  const [userName, setUserName] = useState("")
+  const [password, setPassword] = useState("")
+  const [specialty, setSpecialty] = useState("")
+  const [experience, setExperience] = useState(0)
+  const [description, setDescription] = useState("")
+
+  function submitForm(e) {
+    e.preventDefault()
+    if (experience < 0) {
+      console.log("Compila tutti i campi correttamente per favore");
+    } else {
+      console.log(`Nome Completo: ${name};
+        Username: ${userName};
+        Password: ${password};
+        Specializzazione: ${specialty};
+        Anni di Esperienza: ${experience};
+        Descrizione: ${description}`);
+    }
+
+  }
 
   return (
     <>
       <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+        <form onSubmit={submitForm}>
+          <input
+            type="text"
+            placeholder="Nome Completo"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required />
+          <input type="text"
+            placeholder="Username"
+            value={userName}
+            onChange={(e) => setUserName(e.target.value)}
+            required />
+          <input type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required />
+          <select name="specialty"
+            id="specialty"
+            value={specialty}
+            onChange={(e) => setSpecialty(e.target.value)}
+            required>
+            <option value=""></option>
+            <option value="Full Stack">
+              Full Stack
+            </option>
+            <option value="Frontend">
+              Frontend
+            </option>
+            <option value="Backend">
+              Backend
+            </option>
+          </select>
+          <input type="number"
+            placeholder="Anni di esperienza"
+            value={experience}
+            onChange={(e) => setExperience(e.target.value)}
+            required />
+          <textarea
+            name="description"
+            id="description"
+            placeholder="Descriviti brevemente"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            required>
+          </textarea>
+          <button type="submit">Invia!</button>
+        </form>
+
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
   )
 }
