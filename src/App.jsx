@@ -9,9 +9,24 @@ function App() {
   const [experience, setExperience] = useState(0)
   const [description, setDescription] = useState("")
 
+  const letters = "abcdefghijklmnopqrstuvwxyz";
+  const numbers = "0123456789";
+  const symbols = "!@#$%^&*()-_=+[]{}|;:'\\,.<>?/`~";
+
+  const containsLetter = (value) => letters.split("").some(char => value.includes(char))
+  const containsNumber = (value) => numbers.split("").some(char => value.includes(char))
+  const containsSymbol = (value) => symbols.split("").some(char => value.includes(char))
+
+  const isAlphanumeric = (value) =>
+    value.split("").every(char => letters.includes(char.toLowerCase()) || numbers.includes(char));
+
+  const validUsername = userName.length >= 6 && isAlphanumeric(userName);
+  const validPassword = password.length >= 8 && containsLetter(password) && containsNumber(password) && containsSymbol(password);
+  const validDescription = description.length >= 100 && description.length <= 1000;
+
   function submitForm(e) {
     e.preventDefault()
-    if (experience < 0) {
+    if (experience < 0 || !validUsername || !validPassword || !validDescription) {
       console.log("Compila tutti i campi correttamente per favore");
     } else {
       console.log(`Nome Completo: ${name};
@@ -21,7 +36,6 @@ function App() {
         Anni di Esperienza: ${experience};
         Descrizione: ${description}`);
     }
-
   }
 
   return (
@@ -39,11 +53,18 @@ function App() {
             value={userName}
             onChange={(e) => setUserName(e.target.value)}
             required />
+          <strong style={{ color: validUsername ? "green" : "red" }}>
+            {validUsername ? "Username Valido" : "Minimo 6 caratteri, solo caratteri alfanumerici"}
+          </strong>
           <input type="password"
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            required />
+            required
+          />
+          <strong style={{ color: validPassword ? "green" : "red" }}>
+            {validPassword ? "Password Valida" : "Password non valida"}
+          </strong>
           <select name="specialty"
             id="specialty"
             value={specialty}
@@ -73,9 +94,11 @@ function App() {
             onChange={(e) => setDescription(e.target.value)}
             required>
           </textarea>
+          <strong style={{ color: validDescription ? "green" : "red" }}>
+            {validDescription ? "Descrizione Valida" : "Descrizione non valida"}
+          </strong>
           <button type="submit">Invia!</button>
         </form>
-
       </div>
     </>
   )
