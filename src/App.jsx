@@ -1,4 +1,4 @@
-import { useState, useRef } from "react"
+import { useState, useRef, useMemo } from "react"
 
 function App() {
 
@@ -13,28 +13,45 @@ function App() {
   const numbers = "0123456789";
   const symbols = "!@#$%^&*()-_=+[]{}|;:'\\,.<>?/`~";
 
-  const containsLetter = (value) => letters.split("").some(char => value.includes(char))
-  const containsNumber = (value) => numbers.split("").some(char => value.includes(char))
-  const containsSymbol = (value) => symbols.split("").some(char => value.includes(char))
+  const validUSerName = useMemo(() => {
+    const charsValid = userName.split("").every(char => letters.includes(char.toLocaleLowerCase() || numbers.includes(char)))
+    return charsValid && userName.trim().length >= 6
+  }, [userName])
 
-  const isAlphanumeric = (value) =>
-    value.split("").every(char => letters.includes(char.toLowerCase()) || numbers.includes(char));
+  const validPassword = useMemo(() => {
+    return (password.trim().length >= 8
+      && password.split("").some(char => letters.includes(char)) &&
+      password.split("").some(char => numbers.includes(char)) &&
+      password.split("").some(char => symbols.includes(char)))
+  }, [password])
 
-  const validUsername = userName.length >= 6 && isAlphanumeric(userName);
-  const validPassword = password.length >= 8 && containsLetter(password) && containsNumber(password) && containsSymbol(password);
-  const validDescription = description.length >= 100 && description.length <= 1000;
+  const validDescription = useMemo(() => {
+    return description.trim().length >= 100 &&
+      description.trim().length < 1000
+  }, [description])
 
   function submitForm(e) {
     e.preventDefault()
-    if (experienceRef.current.value < 0 || !validUsername || !validPassword || !validDescription) {
-      console.log("Compila tutti i campi correttamente per favore");
-    } else {
+    const name = nameRef.current.value
+    const specialty = specialtyRef.current.value
+    const experience = experienceRef.current.value
+    if (!name.trim() ||
+      !userName.trim() ||
+      !password.trim() ||
+      !specialty.trim() ||
+      !experience.trim() ||
+      experience <= 0 ||
+      !description.trim()) {
+      alert("Compilare tutti i campi correttamente")
+      return
+    }
+    else {
       console.log(`Nome Completo: ${nameRef.current.value};
         Username: ${userName};
         Password: ${password};
         Specializzazione: ${specialtyRef.current.value};
         Anni di Esperienza: ${experienceRef.current.value};
-        Descrizione: ${description}`);
+        Descrizione: ${description}`)
     }
   }
 
@@ -54,11 +71,10 @@ function App() {
             onChange={(e) => setUserName(e.target.value)}
             required />
           <div className="messageContainer">
-            <strong style={{ color: validUsername ? "green" : "red" }}>
-              {validUsername ? "Username Valido" : "Minimo 6 caratteri, solo caratteri alfanumerici"}
+            <strong style={{ color: validUSerName ? "green" : "red" }}>
+              {validUSerName ? "Username Valido" : "Minimo 6 caratteri, solo caratteri alfanumerici"}
             </strong>
           </div>
-
           <input type="password"
             placeholder="Password"
             value={password}
@@ -70,7 +86,6 @@ function App() {
               {validPassword ? "Password Valida" : "Password non valida"}
             </strong>
           </div>
-
           <select name="specialty"
             id="specialty"
             ref={specialtyRef}
@@ -103,7 +118,6 @@ function App() {
               {validDescription ? "Descrizione Valida" : "Descrizione non valida"}
             </strong>
           </div>
-
           <button type="submit">Invia!</button>
         </form>
       </div>
